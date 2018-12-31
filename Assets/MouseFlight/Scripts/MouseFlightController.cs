@@ -4,16 +4,23 @@ namespace MFlight
 {
     /// <summary>
     /// Combination of camera rig and controller for aircraft. Requires a properly set
-    /// up rig. I highly recommend using the included prefab so that the hierarchy is
-    /// correct. 
+    /// up rig. I highly recommend either using or referencing the included prefab.
     /// </summary>
     public class MouseFlightController : MonoBehaviour
     {
+        [Header("Prefabs")]
+        [SerializeField] [Tooltip("Hud to spawn to display and operate the crosshairs for the controller")]
+        private Hud hudPrefab = null;
+
         [Header("Components")]
-        [SerializeField] private Transform aircraft = null;
-        [SerializeField] private Transform mouseAim = null;
-        [SerializeField] private Transform cameraRig = null;
-        [SerializeField] private Transform cam = null;
+        [SerializeField] [Tooltip("Transform of the aircraft the rig follows and references")]
+        private Transform aircraft = null;
+        [SerializeField] [Tooltip("Transform of the object the mouse rotates to generate MouseAim position")]
+        private Transform mouseAim = null;
+        [SerializeField] [Tooltip("Transform of the object on the rig which the camera is attached to")]
+        private Transform cameraRig = null;
+        [SerializeField] [Tooltip("Transform of the camera itself")]
+        private Transform cam = null;
 
         [Header("Options")]
         [SerializeField] [Tooltip("Follow aircraft using fixed update loop")]
@@ -35,7 +42,12 @@ namespace MFlight
         /// </summary>
         public Vector3 BoresightPos
         {
-            get { return (aircraft.transform.forward * aimDistance) + aircraft.transform.position; }
+            get
+            {
+                return aircraft == null
+                     ? transform.forward * aimDistance
+                     : (aircraft.transform.forward * aimDistance) + aircraft.transform.position;
+            }
         }
 
         /// <summary>
@@ -44,7 +56,38 @@ namespace MFlight
         /// </summary>
         public Vector3 MouseAimPos
         {
-            get { return (mouseAim.transform.forward * aimDistance) + mouseAim.transform.position; }
+            get
+            {
+                return mouseAim == null
+                     ? transform.forward * aimDistance
+                     : (mouseAim.transform.forward * aimDistance) + mouseAim.transform.position;
+            }
+        }
+
+        private void Awake()
+        {
+            if (aircraft == null)
+                Debug.LogError($"{name}: MouseFlightController - No aircraft transform assigned!");
+            if (mouseAim == null)
+                Debug.LogError($"{name}: MouseFlightController - No mouse aim transform assigned!");
+            if (cameraRig == null)
+                Debug.LogError($"{name}: MouseFlightController - No camera rig transform assigned!");
+            if (cam == null)
+                Debug.LogError($"{name}: MouseFlightController - No camera transform assigned!");
+
+            if (hudPrefab != null)
+            {
+                var hudGameObject = Instantiate(hudPrefab);
+                var hud = hudGameObject.GetComponent<Hud>();
+                hud.SetReferenceMouseFlight(this);
+            }
+            else
+                Debug.LogError($"{name}: MouseFlightController - No HUD prefab assigned!");
+
+            // To work correctly, the entire rig must not be parented to anything.
+            // When parented to something (such as an aircraft) it will inherit those
+            // rotations causing unintended rotations as it gets dragged around.
+            transform.parent = null;
         }
 
         private void Update()
@@ -63,6 +106,9 @@ namespace MFlight
 
         private void RotateRig()
         {
+            if (mouseAim == null || cam == null || cameraRig == null)
+                return;
+
             // Mouse input.
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
             float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -86,7 +132,11 @@ namespace MFlight
 
         private void UpdateCameraPos()
         {
-            transform.position = aircraft.position;
+            if (aircraft != null)
+            {
+                // Move the whole rig to follow the aircraft.
+                transform.position = aircraft.position;
+            }
         }
 
         // Thanks to Rory Driscoll

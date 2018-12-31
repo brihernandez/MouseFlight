@@ -9,6 +9,7 @@ namespace MFlight.Demo
     /// keyboard overrides for flight control. It's not perfect, but it works well enough
     /// for an example.
     /// </summary>
+    [RequireComponent(typeof(Rigidbody))]
     public class Plane : MonoBehaviour
     {
         [Header("Components")]
@@ -42,6 +43,9 @@ namespace MFlight.Demo
         private void Awake()
         {
             rigid = GetComponent<Rigidbody>();
+
+            if (controller == null)
+                Debug.LogError($"{name}: Plane - Missing reference to MouseFlightController!");
         }
 
         private void Update()
@@ -65,8 +69,11 @@ namespace MFlight.Demo
             }
 
             // Calculate the autopilot stick inputs.
-            float autoYaw, autoPitch, autoRoll = 0f;
-            RunAutopilot(out autoYaw, out autoPitch, out autoRoll);
+            float autoYaw = 0f;
+            float autoPitch = 0f;
+            float autoRoll = 0f;
+            if (controller != null)
+                RunAutopilot(controller.MouseAimPos, out autoYaw, out autoPitch, out autoRoll);
 
             // Use either keyboard or autopilot input.
             yaw = autoYaw;
@@ -74,11 +81,10 @@ namespace MFlight.Demo
             roll = (rollOverride) ? keyboardRoll : autoRoll;
         }
 
-        private void RunAutopilot(out float yaw, out float pitch, out float roll)
+        private void RunAutopilot(Vector3 flyTarget, out float yaw, out float pitch, out float roll)
         {
             // This is my usual trick of converting the fly to position to local space.
             // You can derive a lot of information from where the target is relative to self.
-            flyTarget = controller.MouseAimPos;
             var localFlyTarget = transform.InverseTransformPoint(flyTarget).normalized * sensitivity;
             var angleOffTarget = Vector3.Angle(transform.forward, flyTarget - transform.position);
 

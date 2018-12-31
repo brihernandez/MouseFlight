@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MFlight.Demo
+namespace MFlight
 {
     public class Hud : MonoBehaviour
     {
@@ -16,22 +16,27 @@ namespace MFlight.Demo
             if (mouseFlight == null)
                 return;
 
-            UpdateGraphics();
+            UpdateGraphics(mouseFlight);
         }
 
-        private void UpdateGraphics()
+        private void UpdateGraphics(MouseFlightController controller)
         {
             if (boresight != null)
             {
-                boresight.position = Camera.main.WorldToScreenPoint(mouseFlight.BoresightPos);
-                //boresight.gameObject.SetActive(boresight.position.z > 1f);
+                boresight.position = Camera.main.WorldToScreenPoint(controller.BoresightPos);
+                boresight.gameObject.SetActive(boresight.position.z > 1f);
             }
 
             if (mousePos != null)
             {
-                mousePos.position = Camera.main.WorldToScreenPoint(mouseFlight.MouseAimPos);
-                //mousePos.gameObject.SetActive(boresight.position.z > 1f);
+                mousePos.position = Camera.main.WorldToScreenPoint(controller.MouseAimPos);
+                mousePos.gameObject.SetActive(mousePos.position.z > 1f);
             }
+        }
+
+        public void SetReferenceMouseFlight(MouseFlightController controller)
+        {
+            mouseFlight = controller;
         }
     }
 }
