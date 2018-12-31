@@ -1,0 +1,10 @@
+/*
+/*/
+
+!.gitignore
+!/Assets/
+!/ProjectSettings/
+!/Packages/
+
+*.blend1
+*.blend1.meta
