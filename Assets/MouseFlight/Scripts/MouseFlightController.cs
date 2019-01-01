@@ -8,10 +8,6 @@ namespace MFlight
     /// </summary>
     public class MouseFlightController : MonoBehaviour
     {
-        [Header("Prefabs")]
-        [SerializeField] [Tooltip("Hud to spawn to display and operate the crosshairs for the controller")]
-        private Hud hudPrefab = null;
-
         [Header("Components")]
         [SerializeField] [Tooltip("Transform of the aircraft the rig follows and references")]
         private Transform aircraft = null;
@@ -74,15 +70,6 @@ namespace MFlight
                 Debug.LogError($"{name}: MouseFlightController - No camera rig transform assigned!");
             if (cam == null)
                 Debug.LogError($"{name}: MouseFlightController - No camera transform assigned!");
-
-            if (hudPrefab != null)
-            {
-                var hudGameObject = Instantiate(hudPrefab);
-                var hud = hudGameObject.GetComponent<Hud>();
-                hud.SetReferenceMouseFlight(this);
-            }
-            else
-                Debug.LogError($"{name}: MouseFlightController - No HUD prefab assigned!");
 
             // To work correctly, the entire rig must not be parented to anything.
             // When parented to something (such as an aircraft) it will inherit those

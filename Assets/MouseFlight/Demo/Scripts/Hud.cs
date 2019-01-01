@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MFlight
+namespace MFlight.Demo
 {
     public class Hud : MonoBehaviour
     {
