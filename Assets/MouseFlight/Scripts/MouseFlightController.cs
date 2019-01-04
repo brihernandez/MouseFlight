@@ -31,6 +31,10 @@ namespace MFlight
         [SerializeField] [Tooltip("How far the boresight and mouse flight are from the aircraft")]
         private float aimDistance = 500f;
 
+        [Space]
+        [SerializeField] [Tooltip("How far the boresight and mouse flight are from the aircraft")]
+        private bool showDebugInfo = false;
+
         /// <summary>
         /// Get a point along the aircraft's boresight projected out to aimDistance meters.
         /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
@@ -139,6 +143,38 @@ namespace MFlight
         private Quaternion Damp(Quaternion a, Quaternion b, float lambda, float dt)
         {
             return Quaternion.Slerp(a, b, 1 - Mathf.Exp(-lambda * dt));
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (showDebugInfo == true)
+            {
+                Color oldColor = Gizmos.color;
+
+                // Draw the boresight position.
+                if (aircraft != null)
+                {
+                    Gizmos.color = Color.white;
+                    Gizmos.DrawWireSphere(BoresightPos, 10f);
+                }
+
+                if (mouseAim != null)
+                {
+                    // Draw the position of the mouse aim position.
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(MouseAimPos, 10f);
+
+                    // Draw axes for the mouse aim transform.
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawRay(mouseAim.position, mouseAim.forward * 50f);
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawRay(mouseAim.position, mouseAim.up * 50f);
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawRay(mouseAim.position, mouseAim.right * 50f);
+                }
+
+                Gizmos.color = oldColor;
+            }
         }
     }
 }
