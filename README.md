@@ -65,3 +65,9 @@ If you'd like to add camera motion, such as the camera moving back when the airc
 
 ### Camera
 Transform of the camera itself. Only used as reference for rotating the MouseAim transform relative to the screen.
+
+# Changelog
+
+### 1.0 (Jan 4 2019)
+
+- Released
