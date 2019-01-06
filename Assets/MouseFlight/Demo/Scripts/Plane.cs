@@ -45,7 +45,7 @@ namespace MFlight.Demo
             rigid = GetComponent<Rigidbody>();
 
             if (controller == null)
-                Debug.LogError($"{name}: Plane - Missing reference to MouseFlightController!");
+                Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
         }
 
         private void Update()

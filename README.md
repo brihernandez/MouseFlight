@@ -4,7 +4,7 @@ This project is an example of mouse controls for aircraft based on the excellent
 
 ![screenshot](Screenshots/flight.gif)
 
-**Important!** This project was built in **Unity 2018.3.0f2**, which means it uses the [new prefab workflow](https://unity.com/prefabs). It very likely isn't backwards compatible.
+This project was built in **Unity 2017.3.1f1**.
 
 ## Download
 You can either clone the repository or [download the asset package](https://github.com/brihernandez/MouseFlight/raw/master/MouseFlight.unitypackage) located in the root.
@@ -67,6 +67,11 @@ If you'd like to add camera motion, such as the camera moving back when the airc
 Transform of the camera itself. Only used as reference for rotating the MouseAim transform relative to the screen.
 
 # Changelog
+
+### 1.1 (Jan 6 2019)
+
+- Converted project/package to 2017.3.1f1 for improved compatibility
+- Removed C# code that was dependent on .Net 4.6 for improved compatibility
 
 ### 1.0 (Jan 4 2019)
 
