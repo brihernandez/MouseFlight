@@ -72,6 +72,7 @@ Transform of the camera itself. Only used as reference for rotating the MouseAim
 
 - Converted project/package to 2017.3.1f1 for improved compatibility
 - Removed C# code that was dependent on .Net 4.6 for improved compatibility
+- Removed unused materials and variables
 
 ### 1.0 (Jan 4 2019)
 
