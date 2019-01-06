@@ -4,7 +4,7 @@ This project is an example of mouse controls for aircraft based on the excellent
 
 ![screenshot](Screenshots/flight.gif)
 
-This project was built in **Unity 2017.3.1f1**.
+This project was built in **Unity 2017.3.1f1**, and tested in 2018.3.0 and 5.6.4.
 
 ## Download
 You can either clone the repository or [download the asset package](https://github.com/brihernandez/MouseFlight/raw/master/MouseFlight.unitypackage) located in the root.
