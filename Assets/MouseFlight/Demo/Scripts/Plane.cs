@@ -33,8 +33,6 @@ namespace MFlight.Demo
         public float Yaw { set { yaw = Mathf.Clamp(value, -1f, 1f); } get { return yaw; } }
         public float Roll { set { roll = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
 
-        private Vector3 flyTarget = Vector3.zero;
-
         private Rigidbody rigid;
 
         private bool rollOverride = false;
