@@ -6,6 +6,8 @@ This project is an example of mouse controls for aircraft based on the excellent
 
 This project was built in **Unity 2017.3.1f1**, and tested in 2018.3.0 and 5.6.4.
 
+Note: When importing the package into 5.6.4, the demo scene will need to have its lighting reset. (Open Window->Lighting->Settings, then click the gear icon on the top right -> Reset.)
+
 ## Download
 You can either clone the repository or [download the asset package](https://github.com/brihernandez/MouseFlight/raw/master/MouseFlight.unitypackage) located in the root.
 
