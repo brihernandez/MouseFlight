@@ -16,12 +16,12 @@ namespace MFlight.Demo
         private void Awake()
         {
             if (mouseFlight == null)
-                Debug.LogError($"{name}: Hud - Mouse Flight Controller not assigned!");
+                Debug.LogError(name + ": Hud - Mouse Flight Controller not assigned!");
 
             playerCam = mouseFlight.GetComponentInChildren<Camera>();
 
             if (playerCam == null)
-                Debug.LogError($"{name}: Hud - No camera found on assigned Mouse Flight Controller!");
+                Debug.LogError(name + ": Hud - No camera found on assigned Mouse Flight Controller!");
         }
 
         private void Update()

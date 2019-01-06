@@ -33,8 +33,6 @@ namespace MFlight.Demo
         public float Yaw { set { yaw = Mathf.Clamp(value, -1f, 1f); } get { return yaw; } }
         public float Roll { set { roll = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
 
-        private Vector3 flyTarget = Vector3.zero;
-
         private Rigidbody rigid;
 
         private bool rollOverride = false;
@@ -45,7 +43,7 @@ namespace MFlight.Demo
             rigid = GetComponent<Rigidbody>();
 
             if (controller == null)
-                Debug.LogError($"{name}: Plane - Missing reference to MouseFlightController!");
+                Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
         }
 
         private void Update()
