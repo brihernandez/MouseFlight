@@ -40,6 +40,9 @@ namespace MFlight
         [SerializeField] [Tooltip("How far the boresight and mouse flight are from the aircraft")]
         private bool showDebugInfo = false;
 
+        private Vector3 frozenDirection = Vector3.forward;
+        private bool isMouseAimFrozen = false;
+
         /// <summary>
         /// Get a point along the aircraft's boresight projected out to aimDistance meters.
         /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
@@ -63,9 +66,16 @@ namespace MFlight
         {
             get
             {
-                return mouseAim == null
-                     ? transform.forward * aimDistance
-                     : (mouseAim.transform.forward * aimDistance) + mouseAim.transform.position;
+                if (mouseAim != null)
+                {
+                    return isMouseAimFrozen
+                        ? GetFrozenMouseAimPos()
+                        : mouseAim.position + (mouseAim.forward * aimDistance);
+                }
+                else
+                {
+                    return transform.forward * aimDistance;
+                }
             }
         }
 
@@ -105,6 +115,18 @@ namespace MFlight
             if (mouseAim == null || cam == null || cameraRig == null)
                 return;
 
+            // Freeze the mouse aim direction when the free look key is pressed.
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                isMouseAimFrozen = true;
+                frozenDirection = mouseAim.forward;
+            }
+            else if  (Input.GetKeyUp(KeyCode.C))
+            {
+                isMouseAimFrozen = false;
+                mouseAim.forward = frozenDirection;
+            }
+
             // Mouse input.
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
             float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -121,9 +143,17 @@ namespace MFlight
 
             // Smoothly rotate the camera to face the mouse aim.
             cameraRig.rotation = Damp(cameraRig.rotation,
-                                      Quaternion.LookRotation(MouseAimPos - cameraRig.position, upVec),
+                                      Quaternion.LookRotation(mouseAim.forward, upVec),
                                       camSmoothSpeed,
                                       Time.deltaTime);
+        }
+
+        private Vector3 GetFrozenMouseAimPos()
+        {
+            if (mouseAim != null)
+                return mouseAim.position + (frozenDirection * aimDistance);
+            else
+                return transform.forward * aimDistance;
         }
 
         private void UpdateCameraPos()
