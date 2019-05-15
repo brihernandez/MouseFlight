@@ -1,5 +1,5 @@
 
-# Mouse Flight v1.2
+# Mouse Flight v1.3
 This project is an example of mouse controls for aircraft based on the excellent system used by Gaijin's War Thunder. It is in my opinion the single best and most robust system for controlling aircraft, especially those with more realistic physics.
 
 ![screenshot](Screenshots/flight.gif)
@@ -70,6 +70,9 @@ If you'd like to add camera motion, such as the camera moving back when the airc
 Transform of the camera itself. Only used as reference for rotating the MouseAim transform relative to the screen.
 
 # Changelog
+
+### 1.3 (May 14 2019)
+- Fixed bug where demo plane Roll property reported pitch instead of roll.
 
 ### 1.2 (May 11 2019)
 - Added free look enabled by holding the C key

@@ -36,7 +36,7 @@ namespace MFlight.Demo
 
         public float Pitch { set { pitch = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
         public float Yaw { set { yaw = Mathf.Clamp(value, -1f, 1f); } get { return yaw; } }
-        public float Roll { set { roll = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
+        public float Roll { set { roll = Mathf.Clamp(value, -1f, 1f); } get { return roll; } }
 
         private Rigidbody rigid;
 
